@@ -1,0 +1,82 @@
+import multiprocessing
+from datetime import datetime, timedelta
+
+from databases.interfaces import Record
+from pydantic import UUID4
+from src.core.schemas import WithdrawData
+from fireblocks_sdk import FireblocksSDK, VAULT_ACCOUNT, TransferPeerPath, DestinationTransferPeerPath, ONE_TIME_ADDRESS
+from src.core.config import executor_config
+import requests
+from src.core.exceptions import InvalidOrderId
+
+last_order_id = multiprocessing.Value('i', 0)
+lock = multiprocessing.Lock()
+
+async def update_withdrawal_result(
+    data: dict
+) -> None:
+    _headers = {
+        
+    }
+    _update = requests.post(
+        url=executor_config.UPDATE_WITHDRAW_CALLBACK_URL,
+        data=data,
+        headers=_headers
+    )
+    return _update.text
+    
+def get_fireblock():
+    api_secret = executor_config.FIREBLOCK_SECRET_KEY
+    api_key = executor_config.FIREBLOCK_API_KEY
+    api_url = executor_config.FIREBLOCK_API_URL
+    return FireblocksSDK(api_secret, api_key, api_base_url=api_url)
+
+async def create_transaction(asset_id, amount, src_id, address, note) -> dict:
+    fireblocks = get_fireblock()
+    tx_result = fireblocks.create_transaction(
+        asset_id=asset_id,
+        amount=amount,
+        source=TransferPeerPath(VAULT_ACCOUNT, src_id),
+        destination=DestinationTransferPeerPath(ONE_TIME_ADDRESS, None, {"address": address}),
+        note=note
+    )
+    print(tx_result)
+    return tx_result
+
+"""
+    Function allow to withdraw one amount of token to wthdrawer
+"""
+async def withdraw_to_address(
+    withdraw_data: WithdrawData,
+    last_order_id = last_order_id,
+    lock = lock
+) -> dict:
+    lock.acquire()
+    print("Last id = ", last_order_id.value)
+    print("Current order id = ", withdraw_data.order_id)
+    
+    if last_order_id.value >= withdraw_data.order_id:
+        lock.release()
+        return {}
+        # raise InvalidOrderId()
+    
+    last_order_id.value = withdraw_data.order_id
+    print("* Withdraw Data = ", withdraw_data)
+    
+    # Make transfer tx in Fireblock
+    _withdraw_tx = await create_transaction(
+        asset_id=withdraw_data.crypto_code,
+        amount=str(withdraw_data.amount),
+        src_id=executor_config.WITHDRAWAL_POOL_ACCOUNT_ID,
+        address=withdraw_data.wallet_address,
+        note=f"Withdraw {withdraw_data.amount} to address {withdraw_data.wallet_address}"
+    )
+    lock.release()
+    # Update the withdrawal request
+    # await update_withdrawal_result({
+    #     "order_id": withdraw_data["order_id"],
+    #     "fireblock_withdraw_id": _withdraw_tx["id"],
+    #     "status": _withdraw_tx["status"]
+    # })
+    
+    return _withdraw_tx
