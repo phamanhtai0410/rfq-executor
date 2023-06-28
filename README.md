@@ -29,7 +29,20 @@ This repo is kind of a template I use when starting up new FastAPI projects:
 
 ## Executor compilation steps:
 
-## Local Development
+### 1. Set up the constants
+
+Add the executor in src/core/config.py:
+
+- SIGNATURE_PUBKEY: The signature to verify the call from the `Signature Storage`
+- FIREBLOCK_SECRET_KEY: The scecret key of Fireblock accessibility
+- FIREBLOCK_API_KEY: The api key of Fireblock accessibility
+- FIREBLOCK_API_URL: The fireblock host (sandbox host for sandbox env)
+- WITHDRAWAL_POOL_ACCOUNT_ID: The ID of the withdrawal pool
+- UPDATE_WITHDRAW_CALLBACK_URL: The call back api url for updating the data of the withdrawal transaction
+
+### 2. Compile the python source to .so file
+
+## Deployments
 
 ### First Build Only
 
