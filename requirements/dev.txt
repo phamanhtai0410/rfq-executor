@@ -13,6 +13,7 @@ sqlalchemy2-stubs
 types-python-jose
 pymysql==1.0.3
 aiomysql==0.2.0
+pysha3==1.0.2
 
 fireblocks-sdk==1.21.0
 web3==6.5.0
