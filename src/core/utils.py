@@ -22,11 +22,13 @@ def verify(data: typing.Dict):
     del data['signatures']
     def _verify(node: int):
         pub_key = executor_config.PUBLIC_KEYS[node]
-
-        _sig = signatures[node]
-
         _msg = {**data, 'node': node}
         print("check msg", _msg)
+
+        _sig = signatures.get(node) or signatures.get(str(node))
+
+        print('_sig', _sig)
+
         _keys = list(_msg.keys())
         _keys.sort()
         _value = [str(_msg[i]) for i in _keys]
@@ -46,6 +48,7 @@ def verify(data: typing.Dict):
         return False
     print("check PUBLIC_KEYS")
     for _node in executor_config.PUBLIC_KEYS.keys():
+        print('_node', _node)
         if not _verify(_node):
             print("Verify failed", _node)
             return False
