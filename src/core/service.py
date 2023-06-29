@@ -57,9 +57,9 @@ async def withdraw_to_address(
     print("Last id = ", last_withdraw_uuid.value)
     print("Current order id = ", withdraw_data.withdraw_uuid)
     
-    if last_withdraw_uuid.value >= withdraw_data.withdraw_uuid:
-        lock.release()
-        return {}
+    # if last_withdraw_uuid.value >= withdraw_data.withdraw_uuid:
+    #     lock.release()
+    #     return {}
         # raise InvalidOrderId()
     
     last_withdraw_uuid.value = withdraw_data.withdraw_uuid
