@@ -6,11 +6,12 @@ from src.models import ORJSONModel
 
 
 class WithdrawData(ORJSONModel):
-    order_id: int
-    wallet_address: str
-    amount: float
-    crypto_code: str
-    signature: str
+    transaction_id: str
+    quantity: str
+    currency: str
+    wallet: str
+    withdraw_uuid: str
+    signatures: list[str]
     
      
 class WithdrawResponse(ORJSONModel):

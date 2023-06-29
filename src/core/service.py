@@ -10,7 +10,7 @@ import requests
 from src.core.exceptions import InvalidOrderId
 from src.core.constants import Environments
 
-last_order_id = multiprocessing.Value('i', 0)
+last_withdraw_uuid = multiprocessing.Value('i', 0)
 lock = multiprocessing.Lock()
 
 async def update_withdrawal_result(
@@ -32,14 +32,15 @@ def get_fireblock():
     api_url = executor_config.FIREBLOCK_API_URL
     return FireblocksSDK(api_secret, api_key, api_base_url=api_url)
 
-async def create_transaction(asset_id, amount, src_id, address, note) -> dict:
+async def create_transaction(asset_id, amount, src_id, address, note, external_tx_id) -> dict:
     fireblocks = get_fireblock()
     tx_result = fireblocks.create_transaction(
         asset_id=asset_id,
         amount=amount,
         source=TransferPeerPath(VAULT_ACCOUNT, src_id),
         destination=DestinationTransferPeerPath(ONE_TIME_ADDRESS, None, {"address": address}),
-        note=note
+        note=note,
+        external_tx_id=external_tx_id
     )
     print(tx_result)
     return tx_result
@@ -49,32 +50,33 @@ async def create_transaction(asset_id, amount, src_id, address, note) -> dict:
 """
 async def withdraw_to_address(
     withdraw_data: WithdrawData,
-    last_order_id = last_order_id,
+    last_withdraw_uuid = last_withdraw_uuid,
     lock = lock
 ) -> dict:
     lock.acquire()
-    print("Last id = ", last_order_id.value)
-    print("Current order id = ", withdraw_data.order_id)
+    print("Last id = ", last_withdraw_uuid.value)
+    print("Current order id = ", withdraw_data.withdraw_uuid)
     
-    if last_order_id.value >= withdraw_data.order_id:
+    if last_withdraw_uuid.value >= withdraw_data.withdraw_uuid:
         lock.release()
         return {}
         # raise InvalidOrderId()
     
-    last_order_id.value = withdraw_data.order_id
+    last_withdraw_uuid.value = withdraw_data.withdraw_uuid
     print("* Withdraw Data = ", withdraw_data)
     
-    _crypto_code = withdraw_data.crypto_code
+    _currency = withdraw_data.currency
     if executor_config.enviroment == Environments.STAGING:
-        _crypto_code = executor_config.mapping_crypto_code[withdraw_data.crypto_code]
+        _currency = executor_config.mapping_crypto_code[withdraw_data.currency]
     
     # Make transfer tx in Fireblock
     _withdraw_tx = await create_transaction(
-        asset_id=_crypto_code,
+        asset_id=_currency,
         amount=str(withdraw_data.amount),
         src_id=executor_config.WITHDRAWAL_POOL_ACCOUNT_ID,
-        address=withdraw_data.wallet_address,
-        note=f"Withdraw {withdraw_data.amount} to address {withdraw_data.wallet_address}"
+        address=withdraw_data.wallet,
+        note=f"Withdraw {withdraw_data.amount} to address {withdraw_data.wallet}",
+        external_tx_id=withdraw_data.withdraw_uuid
     )
     lock.release()
     # Update the withdrawal request

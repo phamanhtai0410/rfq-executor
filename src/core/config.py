@@ -1,6 +1,7 @@
 from pydantic import BaseSettings
 from src.core.constants import Environments
 
+
 class AuthConfig(BaseSettings):
     JWT_ALG: str = "HS256"
     JWT_SECRET: str = "JWT_SECRET"
@@ -10,12 +11,9 @@ class AuthConfig(BaseSettings):
 
     SECURE_COOKIES: bool = True
 
+
 class ExecutorConfig(BaseSettings):
-    SIGNATURE_PUBKEY = '''-----BEGIN PUBLIC KEY-----
-MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEb4RDp8VZZh46nO8vvR8+YQ8Lp8s1
-4dyI/6/fahTnS2UiZJTW8akWyb+0uk5W3GrY
------END PUBLIC KEY-----'''
-    FIREBLOCK_SECRET_KEY : str = '''-----BEGIN PRIVATE KEY-----
+    FIREBLOCK_SECRET_KEY: str = '''-----BEGIN PRIVATE KEY-----
 MIIJQgIBADANBgkqhkiG9w0BAQEFAASCCSwwggkoAgEAAoICAQCVn0dnOPZpB3sY
 mhEHrZ85xIQ2FUk7Jw1J983WudT+Ac7P1Z31kCB4jxUg5y/YvPlzRlcJfaR/6xYi
 xYoxhk9e6I8Iq+1d72NjnH4mYUrYH131HNHERhBtsII78flN/Mgr4jQQEum43Ypz
@@ -67,18 +65,58 @@ dKL8miehEM+aD4j3NrzLrbtmdljbe0C2cgwtt0NTGwP3ebwfrQEvZyepL3nwG21E
 AT5x0fi68iHY9EaT2VY4gUUmuhIfoWycOgiQMSx+fYdmq8Ro8CYgJZt7itg0hJ2p
 5c13/SXWVoOVa4BWFRGDZa6eU/vYow==
 -----END PRIVATE KEY-----'''
-    FIREBLOCK_API_KEY : str = "c9bf54cf-d5f6-4240-a762-4020e888c3fb"
-    FIREBLOCK_API_URL : str = "https://sandbox-api.fireblocks.io"
+    FIREBLOCK_API_KEY: str = "c9bf54cf-d5f6-4240-a762-4020e888c3fb"
+    FIREBLOCK_API_URL: str = "https://sandbox-api.fireblocks.io"
 
-    WITHDRAWAL_POOL_ACCOUNT_ID : int = 62
-    
-    UPDATE_WITHDRAW_CALLBACK_URL : str= "https://<update-withdraw-callback>"
-    
+    WITHDRAWAL_POOL_ACCOUNT_ID: int = 62
+
+    UPDATE_WITHDRAW_CALLBACK_URL: str = "https://<update-withdraw-callback>"
+
     enviroment: str = Environments.STAGING
-    
+
     mapping_crypto_code = {
         "ETH": "ETH_TEST3"
     }
+    PUBLIC_KEYS = {
+        0: '''-----BEGIN PUBLIC KEY-----
+MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEGExtWnDQ4y9MEnSwGiUuSsBt9MiJ
+FDtoIf53b3OfIpRrxxM0EobFf5CEU52hv+mi
+-----END PUBLIC KEY-----''',
+        1: '''-----BEGIN PUBLIC KEY-----
+MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEAL+Euc8ZzQLVuQHSALud3yX1rCj+
+F24mJQf6qr7P+eo2K7qlj8pQo/Qd/+B8jwsl
+-----END PUBLIC KEY-----''',
+        2: '''-----BEGIN PUBLIC KEY-----
+MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEtroXwDzr57XFLM3q8rMaSLB5Hc/D
+RMIzE6tCTdghcIXCvaMDy2wkMKyvG2WXdV+9
+-----END PUBLIC KEY-----''',
+        3: '''-----BEGIN PUBLIC KEY-----
+MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEVt/G49RdzxcCwJ5ebVFtiM+OFo9B
+zi6LeK2IjazF5QKlkWNGjeWInCAfmvug7b2P
+-----END PUBLIC KEY-----'''
+    }
 
-    
+    LIMIT_AMOUNT = [
+        {
+            'limit': (0, 1_000_001),
+            'node': 3,
+            'admin': False
+        },
+        {
+            'limit': (1_000_001, 10_000_001),
+            'node': 4,
+            'admin': False
+        },
+        {
+            'limit': (10_000_001, 100_000_001),
+            'node': 5,
+            'admin': False
+        },
+        {
+            'limit': 100_000_001,
+            'node': 5,
+            'admin': True
+        }
+    ]
+
 executor_config = ExecutorConfig()
