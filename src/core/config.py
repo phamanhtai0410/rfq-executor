@@ -78,19 +78,19 @@ AT5x0fi68iHY9EaT2VY4gUUmuhIfoWycOgiQMSx+fYdmq8Ro8CYgJZt7itg0hJ2p
         "ETH": "ETH_TEST3"
     }
     PUBLIC_KEYS = {
-        0: '''-----BEGIN PUBLIC KEY-----
+        '0': '''-----BEGIN PUBLIC KEY-----
 MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEGExtWnDQ4y9MEnSwGiUuSsBt9MiJ
 FDtoIf53b3OfIpRrxxM0EobFf5CEU52hv+mi
 -----END PUBLIC KEY-----''',
-        1: '''-----BEGIN PUBLIC KEY-----
+        '1': '''-----BEGIN PUBLIC KEY-----
 MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEAL+Euc8ZzQLVuQHSALud3yX1rCj+
 F24mJQf6qr7P+eo2K7qlj8pQo/Qd/+B8jwsl
 -----END PUBLIC KEY-----''',
-        2: '''-----BEGIN PUBLIC KEY-----
+        '2': '''-----BEGIN PUBLIC KEY-----
 MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEtroXwDzr57XFLM3q8rMaSLB5Hc/D
 RMIzE6tCTdghcIXCvaMDy2wkMKyvG2WXdV+9
 -----END PUBLIC KEY-----''',
-        3: '''-----BEGIN PUBLIC KEY-----
+        '3': '''-----BEGIN PUBLIC KEY-----
 MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEVt/G49RdzxcCwJ5ebVFtiM+OFo9B
 zi6LeK2IjazF5QKlkWNGjeWInCAfmvug7b2P
 -----END PUBLIC KEY-----'''
