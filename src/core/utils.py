@@ -21,7 +21,7 @@ def verify(data: typing.Dict):
 
     del data['signatures']
     def _verify(node: int):
-        pub_key = executor_config.PUBLIC_KEYS[node]
+        pub_key = executor_config.PUBLIC_KEYS.get(node) or executor_config.PUBLIC_KEYS.get(str(node))
         _msg = {**data, 'node': node}
         print("check msg", _msg)
 
