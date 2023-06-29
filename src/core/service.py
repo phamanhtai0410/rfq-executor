@@ -62,7 +62,7 @@ async def withdraw_to_address(
     #     return {}
         # raise InvalidOrderId()
     
-    last_withdraw_uuid.value = withdraw_data.withdraw_uuid
+    last_withdraw_uuid.value = int(datetime.now().timestamp())
     print("* Withdraw Data = ", withdraw_data)
     
     _currency = withdraw_data.currency
