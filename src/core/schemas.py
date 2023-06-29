@@ -11,7 +11,7 @@ class WithdrawData(ORJSONModel):
     currency: str
     wallet: str
     withdraw_uuid: str
-    signatures: list[str]
+    signatures: dict
     
      
 class WithdrawResponse(ORJSONModel):
