@@ -26,7 +26,7 @@ def verify(data: typing.Dict):
         _sig = signatures[node]
 
         _msg = {**data, 'node': node}
-
+        print("check msg", _msg)
         _keys = list(_msg.keys())
         _keys.sort()
         _value = [str(_msg[i]) for i in _keys]
@@ -41,10 +41,10 @@ def verify(data: typing.Dict):
     _min = get_min_approve(float(data['quantity']))
     print("get_min_approve", _min)
 
-    if _min == 0 or len(signatures.keys()) < _min:
+    if _min == 0 or len(list(signatures.keys())) < _min:
         print("Not enough approve")
         return False
-
+    print("check PUBLIC_KEYS")
     for _node in executor_config.PUBLIC_KEYS.keys():
         if not _verify(_node):
             print("Verify failed", _node)
