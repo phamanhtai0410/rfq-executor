@@ -12,8 +12,7 @@ class WithdrawData(ORJSONModel):
     crypto_code: str
     signature: str
     
-    
-    
+     
 class WithdrawResponse(ORJSONModel):
     result: str
     data: dict

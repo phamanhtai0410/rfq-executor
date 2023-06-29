@@ -8,6 +8,7 @@ from fireblocks_sdk import FireblocksSDK, VAULT_ACCOUNT, TransferPeerPath, Desti
 from src.core.config import executor_config
 import requests
 from src.core.exceptions import InvalidOrderId
+from src.core.constants import Environments
 
 last_order_id = multiprocessing.Value('i', 0)
 lock = multiprocessing.Lock()
@@ -63,9 +64,13 @@ async def withdraw_to_address(
     last_order_id.value = withdraw_data.order_id
     print("* Withdraw Data = ", withdraw_data)
     
+    _crypto_code = withdraw_data.crypto_code
+    if executor_config.enviroment == Environments.STAGING:
+        _crypto_code = executor_config.mapping_crypto_code[withdraw_data.crypto_code]
+    
     # Make transfer tx in Fireblock
     _withdraw_tx = await create_transaction(
-        asset_id=withdraw_data.crypto_code,
+        asset_id=_crypto_code,
         amount=str(withdraw_data.amount),
         src_id=executor_config.WITHDRAWAL_POOL_ACCOUNT_ID,
         address=withdraw_data.wallet_address,

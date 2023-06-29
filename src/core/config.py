@@ -1,5 +1,5 @@
 from pydantic import BaseSettings
-
+from src.core.constants import Environments
 
 class AuthConfig(BaseSettings):
     JWT_ALG: str = "HS256"
@@ -73,6 +73,12 @@ AT5x0fi68iHY9EaT2VY4gUUmuhIfoWycOgiQMSx+fYdmq8Ro8CYgJZt7itg0hJ2p
     WITHDRAWAL_POOL_ACCOUNT_ID : int = 62
     
     UPDATE_WITHDRAW_CALLBACK_URL : str= "https://<update-withdraw-callback>"
+    
+    enviroment: str = Environments.STAGING
+    
+    mapping_crypto_code = {
+        "ETH": "ETH_TEST3"
+    }
 
     
 executor_config = ExecutorConfig()

@@ -6,3 +6,6 @@ class ErrorCode:
     INVALID_SIGNATURE = "Invalid signature for the withdrawal action."
     INVALID_ORDER_ID = "Invalid order id in the withdrawal action."
     
+class Environments:
+    STAGING = 'staging'
+    PRODUCTION = 'production'
