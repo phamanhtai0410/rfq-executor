@@ -47,7 +47,7 @@ def verify(data: typing.Dict):
         print("Not enough approve")
         return False
     print("check PUBLIC_KEYS")
-    for _node in executor_config.PUBLIC_KEYS.keys():
+    for _node in signatures.keys():
         print('_node', _node)
         if not _verify(_node):
             print("Verify failed", _node)
