@@ -1,3 +1,4 @@
+import traceback
 import typing
 
 import sha3
@@ -51,9 +52,10 @@ def verify(data: typing.Dict):
     print("Pass verify")
     return True
 
-def verify_withdrawal_signatures(withdrawal_data: WithdrawData) -> bool:
+def verify_withdrawal_signatures(withdrawal_data: WithdrawData):
     try:
         if not verify(withdrawal_data.dict()):
             raise InvalidSignature()
     except:
+        traceback.print_exc()
         raise InvalidSignature()
