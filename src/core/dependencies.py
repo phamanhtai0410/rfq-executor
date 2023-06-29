@@ -9,6 +9,6 @@ from src.core.schemas import WithdrawData
 
 
 def valid_withdraw_data(withdraw_data: WithdrawData) -> bool:
-    if not Web3.is_address(withdraw_data.wallet_address):
+    if not Web3.is_address(withdraw_data.wallet):
         raise InvalidWithdrawalAddress()
     return withdraw_data
