@@ -72,10 +72,10 @@ async def withdraw_to_address(
     # Make transfer tx in Fireblock
     _withdraw_tx = await create_transaction(
         asset_id=_currency,
-        amount=str(withdraw_data.amount),
+        amount=str(withdraw_data.quantity),
         src_id=executor_config.WITHDRAWAL_POOL_ACCOUNT_ID,
         address=withdraw_data.wallet,
-        note=f"Withdraw {withdraw_data.amount} to address {withdraw_data.wallet}",
+        note=f"Withdraw {withdraw_data.quantity} to address {withdraw_data.wallet}",
         external_tx_id=withdraw_data.withdraw_uuid
     )
     lock.release()

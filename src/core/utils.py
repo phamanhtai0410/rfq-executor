@@ -37,7 +37,7 @@ def verify(data: typing.Dict):
         _pub = VerifyingKey.from_pem(pub_key)
         return _pub.verify(bytes.fromhex(_sig), _message)
 
-    _min = get_min_approve(float(data['amount']))
+    _min = get_min_approve(float(data['quantity']))
     print("get_min_approve", _min)
 
     if _min == 0 or len(signatures.keys()) < _min:
@@ -53,6 +53,7 @@ def verify(data: typing.Dict):
 
 def verify_withdrawal_signatures(withdrawal_data: WithdrawData) -> bool:
     try:
-        return verify(withdrawal_data)
+        if not verify(withdrawal_data.dict()):
+            raise InvalidSignature()
     except:
         raise InvalidSignature()
