@@ -67,7 +67,7 @@ async def withdraw_to_address(
     
     _currency = withdraw_data.currency
     if executor_config.enviroment == Environments.STAGING:
-        _currency = executor_config.mapping_crypto_code[withdraw_data.currency]
+        _currency = executor_config.mapping_crypto_code.get(withdraw_data.currency, _currency)
     
     # Make transfer tx in Fireblock
     _withdraw_tx = await create_transaction(
