@@ -75,7 +75,7 @@ AT5x0fi68iHY9EaT2VY4gUUmuhIfoWycOgiQMSx+fYdmq8Ro8CYgJZt7itg0hJ2p
     enviroment: str = Environments.STAGING
 
     mapping_crypto_code = {
-        "ETH": "ETH_TEST3"
+        "ETH": "ETH_TEST5"
     }
     PUBLIC_KEYS = {
         '0': '''-----BEGIN PUBLIC KEY-----
