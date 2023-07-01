@@ -75,7 +75,18 @@ AT5x0fi68iHY9EaT2VY4gUUmuhIfoWycOgiQMSx+fYdmq8Ro8CYgJZt7itg0hJ2p
     enviroment: str = Environments.STAGING
 
     mapping_crypto_code = {
-        "ETH": "ETH_TEST5"
+        "ETH": "ETH_TEST5",
+        'BTC': 'BTC_TEST', 'USDT': 'USDT_BSC_TEST',
+        'USDC': 'USDC_T',
+        'AVAX': 'AVAXTEST', 'SOL': 'SOL_TEST', 'LOOKS': 'LOOKS',
+        'APE': 'APE',
+        'DOT': 'DOT', 'EOS': 'EOS', 'ETC': 'ETC_TEST', 'GMT': 'GMT',
+        'LTC': 'LTC_TEST', 'MANA': 'MANA', 'NEAR': 'NEAR_TEST',
+        'TRX': 'TRX_TEST', 'WAVES': 'WAVES', 'FTT': 'FTT',
+        'FTM': 'FTM', 'MATIC': 'MATIC_TEST', 'XLM': 'XLM',
+        'XRP': 'XRP', 'SAND': 'SAND', 'DOGE': 'DOGE_TEST',
+        'CRV': 'CRV', 'BNB': 'BNB_TEST', 'ADA': 'ADA_TEST', 'AXS': 'AXS'
+
     }
     PUBLIC_KEYS = {
         '0': '''-----BEGIN PUBLIC KEY-----
@@ -118,5 +129,6 @@ zi6LeK2IjazF5QKlkWNGjeWInCAfmvug7b2P
             'admin': True
         }
     ]
+
 
 executor_config = ExecutorConfig()
