@@ -4,7 +4,8 @@ from datetime import datetime, timedelta
 from databases.interfaces import Record
 from pydantic import UUID4
 from src.core.schemas import WithdrawData
-from fireblocks_sdk import FireblocksSDK, VAULT_ACCOUNT, TransferPeerPath, DestinationTransferPeerPath, ONE_TIME_ADDRESS
+from fireblocks_sdk import FireblocksSDK, VAULT_ACCOUNT, TransferPeerPath, DestinationTransferPeerPath, \
+    ONE_TIME_ADDRESS, EXTERNAL_WALLET
 from src.core.config import executor_config
 import requests
 from src.core.exceptions import InvalidOrderId
@@ -38,7 +39,7 @@ async def create_transaction(asset_id, amount, src_id, address, note, external_t
         asset_id=asset_id,
         amount=amount,
         source=TransferPeerPath(VAULT_ACCOUNT, src_id),
-        destination=DestinationTransferPeerPath(ONE_TIME_ADDRESS, None, {"address": address}),
+        destination=DestinationTransferPeerPath(EXTERNAL_WALLET, None, {"address": address}),
         note=note,
         external_tx_id=external_tx_id
     )
