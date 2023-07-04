@@ -33,13 +33,13 @@ def get_fireblock():
     api_url = executor_config.FIREBLOCK_API_URL
     return FireblocksSDK(api_secret, api_key, api_base_url=api_url)
 
-async def create_transaction(asset_id, amount, src_id, address, note, external_tx_id) -> dict:
+async def create_transaction(asset_id, amount, src_id, external_wallet_id, note, external_tx_id) -> dict:
     fireblocks = get_fireblock()
     tx_result = fireblocks.create_transaction(
         asset_id=asset_id,
         amount=amount,
         source=TransferPeerPath(VAULT_ACCOUNT, src_id),
-        destination=DestinationTransferPeerPath(EXTERNAL_WALLET, None, {"address": address}),
+        destination=DestinationTransferPeerPath(EXTERNAL_WALLET, external_wallet_id),
         note=note,
         external_tx_id=external_tx_id
     )
@@ -75,7 +75,8 @@ async def withdraw_to_address(
         asset_id=_currency,
         amount=str(withdraw_data.quantity),
         src_id=executor_config.WITHDRAWAL_POOL_ACCOUNT_ID,
-        address=withdraw_data.wallet,
+        # address=withdraw_data.wallet,
+        external_wallet_id=withdraw_data.external_wallet_id,
         note=f"Withdraw {withdraw_data.quantity} to address {withdraw_data.wallet}",
         external_tx_id=withdraw_data.withdraw_uuid
     )
