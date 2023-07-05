@@ -12,7 +12,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 COPY requirements/ /tmp/requirements
 
 RUN pip install -U pip && \
-    pip install --no-cache-dir -r /tmp/requirements/dev.txt
+    pip install --no-cache-dir -r /tmp/requirements/prod.txt
 
 COPY . /src
 ENV PATH "$PATH:/src/scripts"
@@ -23,4 +23,4 @@ RUN useradd -m -d /src -s /bin/bash app \
 WORKDIR /src
 USER app
 
-CMD ["./scripts/start-dev.sh"]
+CMD ["./scripts/start-prod.sh"]
