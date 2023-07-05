@@ -71,4 +71,11 @@ Run tests
 
 ```shell
 docker compose exec app pytest
+
+```
+
+## Pyinstaller for Signing
+
+```
+pyinstaller --onefile withdrawal_sign.py
 ```
